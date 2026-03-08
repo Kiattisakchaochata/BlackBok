@@ -1,26 +1,130 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bb-blue: #2f6fb3;
+  --bb-blue-dark: #245a93;
+  --bb-blue-soft: rgba(47, 111, 179, 0.08);
+  --bb-blue-ring: rgba(47, 111, 179, 0.18);
+
+  --bb-black: #0f1720;
+  --bb-text: rgba(15, 23, 32, 0.88);
+  --bb-muted: rgba(15, 23, 32, 0.58);
+  --bb-border: rgba(15, 23, 32, 0.10);
+  --bb-white: #ffffff;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  min-height: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  min-height: 100%;
+  background: linear-gradient(180deg, #fcfdff 0%, #f7f9fc 100%);
+  color: var(--bb-black);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.container-page {
+  max-width: 72rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.btn-primary {
+  background: linear-gradient(180deg, var(--bb-blue) 0%, var(--bb-blue-dark) 100%);
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  border-radius: 1rem;
+  padding: 0.9rem 1.4rem;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 24px rgba(47, 111, 179, 0.18);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    filter 0.2s ease;
+}
+
+.btn-primary:hover {
+  filter: brightness(1.02);
+  transform: translateY(-1px);
+  box-shadow: 0 14px 32px rgba(47, 111, 179, 0.24);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+  box-shadow: 0 8px 18px rgba(47, 111, 179, 0.18);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  border-radius: 1rem;
+  padding: 0.9rem 1.4rem;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1;
+  border: 1px solid var(--bb-border);
+  background: rgba(255, 255, 255, 0.88);
+  color: var(--bb-text);
+  box-shadow: 0 4px 14px rgba(15, 23, 32, 0.04);
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.btn-outline:hover {
+  transform: translateY(-1px);
+  background: white;
+  border-color: var(--bb-blue-ring);
+  box-shadow: 0 10px 24px rgba(15, 23, 32, 0.06);
+}
+
+.card {
+  border: 1px solid rgba(15, 23, 32, 0.10);
+  border-radius: 1.5rem;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 10px 30px rgba(15, 23, 32, 0.05);
+  backdrop-filter: blur(8px);
+}
+
+.section-title {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.section-desc {
+  color: var(--bb-muted);
+}
+
+.page-section {
+  padding-top: 32px;
+  padding-bottom: 56px;
+}
+
+@media (min-width: 768px) {
+  .page-section {
+    padding-top: 40px;
+    padding-bottom: 72px;
+  }
 }
