@@ -163,13 +163,9 @@ function MobileMenu({ pathname }: { pathname: string }) {
             })}
 
             <div className="mt-2 px-1">
-              <Link
-                href="/contact"
-                onClick={() => setOpen(false)}
-                className="btn-primary w-full"
-              >
-                ขอใบเสนอราคา
-              </Link>
+              <Link href="/contact" className="btn-primary hidden sm:inline-flex px-4 md:px-5">
+  ขอใบเสนอราคา
+</Link>
             </div>
           </div>
         )}

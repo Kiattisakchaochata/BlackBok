@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function CTA() {
   return (
-    <section className="container-page py-8 md:py-10">
+    <section className="container-page pt-4 pb-8 md:pt-5 md:pb-10">
       <div
         className="rounded-[28px] p-[1px] shadow-[0_18px_40px_rgba(15,23,32,0.06)]"
         style={{

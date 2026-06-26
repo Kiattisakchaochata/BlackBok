@@ -9,8 +9,8 @@ export const SITE = {
   brandColor: "#4388C6",
   locale: "th_TH",
 
-  phone: "+66xxxxxxxxx",
-  email: "contact@example.com",
+  phone: "+66657151099",
+  email: "ck.complete@gmail.com",
   address: "Bangkok, Thailand",
 };
 export function buildMetadata(params: {

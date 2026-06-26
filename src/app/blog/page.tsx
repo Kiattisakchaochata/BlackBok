@@ -15,36 +15,47 @@ export default function BlogPage() {
 
   return (
     <section className="container-page page-section">
-      <h1 className="text-4xl font-extrabold tracking-tight">บทความ</h1>
-      <p className="mt-3 text-black/70">
-        รวมความรู้สำหรับธุรกิจ: ทำเว็บให้ค้นหาเจอ + ยิงแอดให้คุ้ม + วัดผลเป็นระบบ
-      </p>
+      <div className="max-w-2xl">
+        <h1 className="text-[34px] font-extrabold tracking-[-0.03em] text-black md:text-[44px]">
+          บทความ
+        </h1>
 
-      <div className="mt-10 grid gap-4">
-        {posts.map((p) => (
-          <article key={p.slug} className="rounded-3xl border border-black/10 p-6 bg-white">
-            <div className="text-sm text-black/60">{p.date}</div>
-            <h2 className="mt-2 text-2xl font-extrabold">
-              <Link href={`/blog/${p.slug}`} className="hover:underline">
-                {p.title}
+        <p className="mt-3 text-[16px] leading-7 text-black/65 md:text-[17px]">
+          รวมความรู้สำหรับธุรกิจ: ทำเว็บให้ค้นหาเจอ + ยิงแอดให้คุ้ม + วัดผลเป็นระบบ
+        </p>
+      </div>
+
+      <div className="mt-8 grid gap-5">
+        {posts.map((post) => (
+          <article
+            key={post.slug}
+            className="group rounded-[28px] border border-black/6 bg-white/90 p-6 shadow-[0_10px_30px_rgba(15,23,42,0.05)] transition duration-300 hover:-translate-y-[3px] hover:shadow-[0_18px_40px_rgba(15,23,42,0.09)]"
+          >
+            <div className="text-sm font-medium text-black/45">{post.date}</div>
+
+            <h2 className="mt-2 text-[24px] font-extrabold leading-tight tracking-tight text-black md:text-[28px]">
+              <Link href={`/blog/${post.slug}`} className="hover:text-[var(--bb-blue)]">
+                {post.title}
               </Link>
             </h2>
-            <p className="mt-2 text-black/70">{p.description}</p>
 
-            <div className="mt-4 flex gap-2 flex-wrap">
-              {p.tags.map((t) => (
+            <p className="mt-3 text-[15px] leading-7 text-black/65 md:text-[16px]">
+              {post.description}
+            </p>
+
+            <div className="mt-4 flex flex-wrap gap-2">
+              {post.tags.map((tag) => (
                 <span
-                  key={t}
-                  className="text-xs rounded-full px-3 py-1 border border-black/10"
-                  style={{ background: "rgba(67,136,198,0.08)" }}
+                  key={tag}
+                  className="rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-xs font-semibold text-[var(--bb-blue)]"
                 >
-                  {t}
+                  {tag}
                 </span>
               ))}
             </div>
 
             <div className="mt-5">
-              <Link href={`/blog/${p.slug}`} className="btn-outline">
+              <Link href={`/blog/${post.slug}`} className="btn-outline">
                 อ่านต่อ
               </Link>
             </div>

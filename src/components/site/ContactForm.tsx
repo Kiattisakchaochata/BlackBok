@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Turnstile } from "@marsidev/react-turnstile";
 
 type Payload = {
   name: string;
@@ -10,12 +11,14 @@ type Payload = {
   service: string;
   budget: string;
   message: string;
+  website: string;
 };
 
 export default function ContactForm() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
+  const [turnstileToken, setTurnstileToken] = useState("");
 
   const [form, setForm] = useState<Payload>({
     name: "",
@@ -24,6 +27,7 @@ export default function ContactForm() {
     service: "FullFunnel",
     budget: "ไม่แน่ใจ",
     message: "",
+    website: "",
   });
 
   function update<K extends keyof Payload>(key: K, value: Payload[K]) {
@@ -33,18 +37,26 @@ export default function ContactForm() {
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setErr(null);
+
+    if (!turnstileToken) {
+      setErr("กรุณายืนยันความปลอดภัยก่อนส่งข้อมูล");
+      return;
+    }
+
     setLoading(true);
 
     try {
       const res = await fetch("/api/lead", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, turnstileToken }),
       });
 
       const data = (await res.json()) as { ok: boolean; error?: string };
 
-      if (!res.ok || !data.ok) throw new Error(data.error || "ส่งข้อมูลไม่สำเร็จ");
+      if (!res.ok || !data.ok) {
+        throw new Error(data.error || "ส่งข้อมูลไม่สำเร็จ");
+      }
 
       router.push("/thank-you");
     } catch (e: any) {
@@ -86,11 +98,11 @@ export default function ContactForm() {
         />
       </div>
 
-      <div className="grid md:grid-cols-2 gap-4">
+      <div className="grid gap-4 md:grid-cols-2">
         <div className="grid gap-2">
           <label className="text-sm font-semibold">สนใจบริการ</label>
           <select
-            className="rounded-xl border border-black/15 px-4 py-3 outline-none bg-white"
+            className="rounded-xl border border-black/15 bg-white px-4 py-3 outline-none"
             value={form.service}
             onChange={(e) => update("service", e.target.value)}
           >
@@ -106,7 +118,7 @@ export default function ContactForm() {
         <div className="grid gap-2">
           <label className="text-sm font-semibold">งบประมาณ</label>
           <select
-            className="rounded-xl border border-black/15 px-4 py-3 outline-none bg-white"
+            className="rounded-xl border border-black/15 bg-white px-4 py-3 outline-none"
             value={form.budget}
             onChange={(e) => update("budget", e.target.value)}
           >
@@ -122,24 +134,47 @@ export default function ContactForm() {
       <div className="grid gap-2">
         <label className="text-sm font-semibold">รายละเอียดเพิ่มเติม</label>
         <textarea
-          className="rounded-xl border border-black/15 px-4 py-3 outline-none min-h-[120px]"
+          className="min-h-[120px] rounded-xl border border-black/15 px-4 py-3 outline-none"
           value={form.message}
           onChange={(e) => update("message", e.target.value)}
           placeholder="เช่น ต้องการเว็บกี่หน้า / ฟีเจอร์ / ตัวอย่างเว็บที่ชอบ / เป้าหมายการตลาด"
         />
       </div>
 
+      <Turnstile
+        siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || ""}
+        onSuccess={(token) => setTurnstileToken(token)}
+        onExpire={() => setTurnstileToken("")}
+        onError={() => {
+          setTurnstileToken("");
+          setErr("ยืนยันความปลอดภัยไม่สำเร็จ กรุณาลองใหม่");
+        }}
+        options={{
+          theme: "light",
+          size: "normal",
+        }}
+      />
+
       {err && (
-        <div className="rounded-xl p-3 text-sm border border-red-200 bg-red-50 text-red-700">
+        <div className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">
           {err}
         </div>
       )}
-
-      <button disabled={loading} className="btn-primary">
+      <input
+        type="text"
+        tabIndex={-1}
+        autoComplete="off"
+        value={form.website}
+        onChange={(e) => update("website", e.target.value)}
+        className="hidden"
+      />
+      <button disabled={loading || !turnstileToken} className="btn-primary">
         {loading ? "กำลังส่ง..." : "ส่งข้อมูลเพื่อขอใบเสนอราคา"}
       </button>
 
-      <div className="text-xs text-black/50">*ข้อมูลนี้ใช้เพื่อการติดต่อกลับเท่านั้น</div>
+      <div className="text-xs text-black/50">
+        *ข้อมูลนี้ใช้เพื่อการติดต่อกลับเท่านั้น
+      </div>
     </form>
   );
 }

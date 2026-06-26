@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { FaLine } from "react-icons/fa";
+import { MdEmail } from "react-icons/md";
 import { SITE } from "@/lib/seo";
 
 export default function Footer() {
@@ -7,7 +9,7 @@ export default function Footer() {
       <div className="container-page py-6 md:py-10">
         <div className="grid grid-cols-1 gap-6 text-center md:grid-cols-[1.2fr_0.72fr_0.95fr] md:items-start md:gap-8 md:text-left">
           {/* Brand */}
-          <div className="max-w-xl mx-auto md:mx-0 md:max-w-none">
+          <div className="mx-auto max-w-xl md:mx-0 md:max-w-none">
             <div className="flex items-center justify-center gap-4 md:justify-start">
               <span
                 className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl text-white font-extrabold shadow-sm"
@@ -90,11 +92,34 @@ export default function Footer() {
 
       {/* Bottom bar */}
       <div className="border-t border-black/5">
-        <div className="container-page py-3 text-center text-sm text-black/45 md:flex md:items-center md:justify-between md:text-left">
+        <div className="container-page flex flex-col gap-3 py-3 text-center text-sm text-black/45 md:flex-row md:items-center md:justify-between md:text-left">
           <div className="leading-6">
             SEO • Facebook Ads • TikTok Ads • Tracking • Web / System
           </div>
-          <div className="mt-1 md:mt-0">{SITE.description}</div>
+
+          <div className="flex items-center justify-center gap-2 md:justify-end">
+            <span className="text-[11px] font-semibold tracking-[0.22em] text-black/35">
+              LET'S TALK
+            </span>
+
+            <a
+              href="https://line.me/ti/p/@biz56"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 rounded-full border border-black/6 bg-white px-3 py-1.5 text-[13px] font-medium text-black/65 transition-all duration-200 hover:-translate-y-[1px] hover:border-[#06C755]/30 hover:bg-[#06C755]/5 hover:text-[#06C755]"
+            >
+              <FaLine className="text-[15px]" />
+              <span>LINE</span>
+            </a>
+
+            <a
+              href={`mailto:${SITE.email}`}
+              className="inline-flex items-center gap-2 rounded-full border border-black/6 bg-white px-3 py-1.5 text-[13px] font-medium text-black/65 transition-all duration-200 hover:-translate-y-[1px] hover:border-[var(--bb-blue)]/30 hover:bg-[var(--bb-blue)]/5 hover:text-[var(--bb-blue)]"
+            >
+              <MdEmail className="text-[15px]" />
+              <span>EMAIL</span>
+            </a>
+          </div>
         </div>
       </div>
     </footer>

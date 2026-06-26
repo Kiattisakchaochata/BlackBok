@@ -1,21 +1,56 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import Script from "next/script";
 
-import Navbar from "@/components/site/Navbar";
-import Footer from "@/components/site/Footer";
 import Analytics from "@/components/site/Analytics";
-import FloatingContact from "@/components/site/FloatingContact";
+import SiteChrome from "@/components/site/SiteChrome";
 
 import { SITE, organizationJsonLd, websiteJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE.domain),
   title: {
     default: `${SITE.name} | ${SITE.tagline}`,
     template: `%s | ${SITE.name}`,
   },
-  description: `${SITE.name} — ${SITE.description}`,
-  applicationName: SITE.name,
+  description: SITE.description,
+  keywords: [
+    "รับทำเว็บไซต์",
+    "รับทำเว็บไซต์บริษัท",
+    "รับทำเว็บไซต์ SEO",
+    "ระบบ CRM",
+    "Lead Management",
+    "Digital Marketing",
+    "The Black Bok",
+  ],
+  alternates: {
+    canonical: SITE.domain,
+  },
+  openGraph: {
+    type: "website",
+    locale: SITE.locale,
+    url: SITE.domain,
+    siteName: SITE.name,
+    title: `${SITE.name} | ${SITE.tagline}`,
+    description: SITE.description,
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: SITE.name,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${SITE.name} | ${SITE.tagline}`,
+    description: SITE.description,
+    images: ["/opengraph-image"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export const viewport: Viewport = {
@@ -30,25 +65,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="th">
       <body className="min-h-dvh flex flex-col">
         <Analytics />
-        <Navbar />
 
-        <main className="flex-1 min-h-[calc(100dvh-74px)] pt-[74px] md:min-h-[calc(100dvh-72px)] md:pt-[72px]">
-          {children}
-        </main>
-
-        <Footer />
-        <FloatingContact />
-
-        <Script
+        <script
           id="jsonld-org"
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(org) }}
         />
-        <Script
+
+        <script
           id="jsonld-web"
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(web) }}
         />
+
+        <SiteChrome>{children}</SiteChrome>
       </body>
     </html>
   );
